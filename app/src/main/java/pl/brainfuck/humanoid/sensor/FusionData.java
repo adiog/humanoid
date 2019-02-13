@@ -5,11 +5,11 @@ package pl.brainfuck.humanoid.sensor;
 
 
 public class FusionData {
-    public float yaw;
+    public float roll;
     public float pitch;
 
-    public FusionData(float kalAngleX, float kalAngleY) {
-        this.yaw = kalAngleX;
-        this.pitch = kalAngleY;
+    public FusionData(float roll, float pitch) {
+        this.roll = roll;
+        this.pitch = pitch;
     }
 }

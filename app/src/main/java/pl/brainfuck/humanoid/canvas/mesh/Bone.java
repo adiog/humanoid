@@ -93,16 +93,16 @@ public class Bone {
     public void orient(HumanContext humanContext, float[] matrix) {
         FusionData fusionData = humanContext.get(this.segment);
         if (fusionData != null) {
-            Matrix.rotateM(matrix, 0, fusionData.yaw, 0, 1, 0);
-            Matrix.rotateM(matrix, 0, fusionData.pitch, 0, 0, 1);
+            Matrix.rotateM(matrix, 0, fusionData.roll, 0, 1, 0);
+            Matrix.rotateM(matrix, 0, fusionData.pitch, 1, 0, 0);
         }
     }
 
     public void reorient(HumanContext humanContext, float[] matrix) {
         FusionData fusionData = humanContext.get(this.segment);
         if (fusionData != null) {
-            Matrix.rotateM(matrix, 0, -fusionData.pitch, 0, 0, 1);
-            Matrix.rotateM(matrix, 0, -fusionData.yaw, 0, 1, 0);
+            Matrix.rotateM(matrix, 0, -fusionData.pitch, 1, 0, 0);
+            Matrix.rotateM(matrix, 0, -fusionData.roll, 0, 1, 0);
         }
     }
 

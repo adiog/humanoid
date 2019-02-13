@@ -37,6 +37,9 @@ public class HumanContext {
 
     public HumanContext(AppCompatActivity activity) {
         this.activity = activity;
+
+        fusionDataMap.put(Segment.FootLeft, new FusionData(0, 90));
+        fusionDataMap.put(Segment.FootRight, new FusionData(0, 90));
     }
 
     public void log(String text) {

@@ -1,7 +1,7 @@
 #!/bin/bash
 # Copyright 2019 Aleksander Gajewski <adiog@brainfuck.pl>
 #   created:  Sun 10 Feb 2019 08:16:04 AM CET
-#   modified: Sun 10 Feb 2019 08:58:14 AM CET
+#   modified: Wed 13 Feb 2019 10:00:50 AM CET
 
 cd $(dirname $0)
 
@@ -22,7 +22,7 @@ read
 
 sed -e "s#ssid = \"\(.*\)\"#ssid = \"$SSID\"#" -i ${ESPINO}
 sed -e "s#password = \"\(.*\)\"#password = \"$PASS\"#" -i ${ESPINO}
-sed -e "s#host[16] = \"\(.*\)\"#host[16] = \"$HOST\"#" -i ${ESPINO}
+sed -e "s#host\[16\] = \"\(.*\)\"#host[16] = \"$HOST\"#" -i ${ESPINO}
 
 echo "Flashing the firmware... [press ENTER]"
 read

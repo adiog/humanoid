@@ -51,9 +51,13 @@ public class Screen {
 
     public void redraw(HumanContext humanContext, float[] projectionMatrix) {
         float[] mMVPMatrix = new float[16];
-        float[] orbitCameraMatrixMatrix = getOrbitCameraMatrix(humanContext.pitch, humanContext.yaw, 3);
+        float[] orbitCameraMatrixMatrix = getOrbitCameraMatrix(humanContext.pitch, humanContext.yaw, 2);
 
         Matrix.multiplyMM(mMVPMatrix, 0, projectionMatrix, 0, orbitCameraMatrixMatrix, 0);
+
+        Matrix.rotateM(mMVPMatrix, 0, 90, 1, 0, 0);
+        Matrix.rotateM(mMVPMatrix, 0, -90, 0, 1, 0);
+        Matrix.translateM(mMVPMatrix, 0, 0, -1, 0);
 
         skeleton.redraw(humanContext, mMVPMatrix);
 
