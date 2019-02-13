@@ -23,7 +23,9 @@ public class Skeleton {
         Bone chest = new Bone(Segment.Chest, 0.60F, 0.7F);
 
         spine.insert(chest);
-        spine.insert(new Bone(Segment.Head, 0.30F, 0.5F));
+        Bone head = new Bone(Segment.Head, 0.30F, 0.5F);
+        head.setThicknessRatio(0.23F);
+        spine.insert(head);
 
         spine.setStartingPoint(new float[]{0.0F, 1.0F + pelvis.getThickness(), 0.0F});
         spine.setDirection(-90, new float[]{1, 0, 0});

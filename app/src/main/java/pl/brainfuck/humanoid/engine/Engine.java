@@ -31,7 +31,7 @@ public class Engine {
                 // event update
                 humanContext.yaw += -(humanContext.previousY - y) / 3;
                 humanContext.yaw %= 360;
-                humanContext.pitch += (humanContext.previousX - x) / 3;
+                humanContext.pitch -= (humanContext.previousX - x) / 3;
                 humanContext.pitch %= 360;
                 break;
             case MotionEvent.ACTION_UP:

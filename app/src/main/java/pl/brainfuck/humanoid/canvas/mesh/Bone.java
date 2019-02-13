@@ -14,7 +14,7 @@ public class Bone {
     private Mesh meshLower;
     private Mesh meshUpper;
 
-    float thicknessRation = 0.13F;
+    float thicknessRatio = 0.13F;
     float thickness;
     float lengthPart;
     float lengthRemain;
@@ -23,6 +23,12 @@ public class Bone {
     float weight;
 
     Segment segment;
+
+    public void setThicknessRatio(float newThicknessRatio)
+    {
+        thicknessRatio = newThicknessRatio;
+        init();
+    }
 
     float colors[][] = new float[][]{
             {
@@ -76,18 +82,23 @@ public class Bone {
         };
     }
 
-    public Bone(Segment segment, float length, float weight) {
-        this.segment = segment;
-
-        thickness = length * thicknessRation;
+    private void init()
+    {
+        thickness = length * thicknessRatio;
         lengthPart = length * weight;
         lengthRemain = length * (1.0F - weight);
+
+        meshLower = new Mesh(getMeshCoords(0, lengthPart, thickness), getMeshOrder(), getMeshColors(meshLowerColorOrder));
+        meshUpper = new Mesh(getMeshCoords(length, lengthPart, thickness), getMeshOrder(), getMeshColors(meshUpperColorOrder));
+    }
+
+    public Bone(Segment segment, float length, float weight) {
+        this.segment = segment;
 
         this.length = length;
         this.weight = weight;
 
-        meshLower = new Mesh(getMeshCoords(0, lengthPart, thickness), getMeshOrder(), getMeshColors(meshLowerColorOrder));
-        meshUpper = new Mesh(getMeshCoords(length, lengthPart, thickness), getMeshOrder(), getMeshColors(meshUpperColorOrder));
+        init();
     }
 
     public void orient(HumanContext humanContext, float[] matrix) {
