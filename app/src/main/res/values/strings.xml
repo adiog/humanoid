@@ -3,4 +3,9 @@
     <string name="button_play">Play</string>
     <string name="button_pref">Config</string>
     <string name="button_exit">Exit</string>
+    <string name="button_master">Run Simulation</string>
+    <string name="button_slave">Act as Sensor</string>
+    <string name="button_back">back</string>
+    <string name="button_no_paired_devices_found">no peers found</string>
+    <string name="button_run">Run Simulation</string>
 </resources>
