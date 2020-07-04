@@ -26,6 +26,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.UUID;
+import java.util.Vector;
 
 import io.mindblow.humanoid.context.MasterContext;
 
@@ -56,7 +57,7 @@ public class BluetoothHumanoidService {
     //private AcceptThread mSecureAcceptThread;
     private AcceptThread mInsecureAcceptThread;
     private ConnectThread mConnectThread;
-    private ConnectedThread mConnectedThread;
+    private Vector<ConnectedThread> mConnectedThreads = new Vector<>();
     private int mState;
 
     // Constants that indicate the current connection state
@@ -94,13 +95,13 @@ public class BluetoothHumanoidService {
             mConnectThread.cancel();
             mConnectThread = null;
         }
-
+/*
         // Cancel any thread currently running a connection
         if (mConnectedThread != null) {
             mConnectedThread.cancel();
             mConnectedThread = null;
         }
-
+*/
         // Start the thread to listen on a BluetoothServerSocket
 //        if (mSecureAcceptThread == null) {
 //            mSecureAcceptThread = new AcceptThread(true);
@@ -131,11 +132,11 @@ public class BluetoothHumanoidService {
         }
 
         // Cancel any thread currently running a connection
-        if (mConnectedThread != null) {
+/*        if (mConnectedThread != null) {
             mConnectedThread.cancel();
             mConnectedThread = null;
         }
-
+*/
         // Start the thread to connect with the given device
         mConnectThread = new ConnectThread(device, secure);
         mConnectThread.start();
@@ -158,26 +159,26 @@ public class BluetoothHumanoidService {
         }
 
         // Cancel any thread currently running a connection
-        if (mConnectedThread != null) {
+/*        if (mConnectedThread != null) {
             mConnectedThread.cancel();
             mConnectedThread = null;
         }
-
+*/
         // Cancel the accept thread because we only want to connect to one device
         /*if (mSecureAcceptThread != null) {
             mSecureAcceptThread.cancel();
             mSecureAcceptThread = null;
         }*/
-
+/*
         if (mInsecureAcceptThread != null) {
 
             mInsecureAcceptThread.cancel();
             mInsecureAcceptThread = null;
         }
-
+*/
         // Start the thread to manage the connection and perform transmissions
-        mConnectedThread = new ConnectedThread(device.getAddress(), socket, socketType, role);
-        mConnectedThread.start();
+        mConnectedThreads.add(new ConnectedThread(device.getAddress(), socket, socketType, role));
+        mConnectedThreads.lastElement().start();
     }
 
     /**
@@ -191,10 +192,11 @@ public class BluetoothHumanoidService {
             mConnectThread = null;
         }
 
+        /*
         if (mConnectedThread != null) {
             mConnectedThread.cancel();
             mConnectedThread = null;
-        }
+        }*/
 
         /*
         if (mSecureAcceptThread != null) {
@@ -217,14 +219,14 @@ public class BluetoothHumanoidService {
      */
     public void write(byte[] out) {
         // Create temporary object
-        ConnectedThread r;
+//        ConnectedThread r;
         // Synchronize a copy of the ConnectedThread
         synchronized (this) {
             if (mState != STATE_CONNECTED) return;
-            r = mConnectedThread;
+            for (ConnectedThread ct : mConnectedThreads) {
+                ct.write(out);
+            }
         }
-        // Perform the write unsynchronized
-        r.write(out);
     }
 
     private void connectionFailed() {
@@ -275,7 +277,7 @@ public class BluetoothHumanoidService {
             BluetoothSocket socket;
 
             // Listen to the server socket if we're not connected
-            while (mState != STATE_CONNECTED) {
+            while (true) {
                 try {
                     // This is a blocking call and will only return on a
                     // successful connection or an exception
@@ -288,7 +290,8 @@ public class BluetoothHumanoidService {
                 // If a connection was accepted
                 if (socket != null) {
                     synchronized (BluetoothHumanoidService.this) {
-                        switch (mState) {
+                        connected(socket, socket.getRemoteDevice(), mSocketType, Role.Master);
+                        /*switch (mState) {
                             case STATE_LISTEN:
                             case STATE_CONNECTING:
                                 // Situation normal. Start the connected thread.
@@ -303,7 +306,7 @@ public class BluetoothHumanoidService {
                                     Log.e(TAG, "Could not close unwanted socket", e);
                                 }
                                 break;
-                        }
+                        }*/
                     }
                 }
             }

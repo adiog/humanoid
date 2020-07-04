@@ -42,6 +42,35 @@ public class SlaveActivity extends AppCompatActivity implements SensorEventListe
             }
         });
 
+        ((Button) findViewById(R.id.buttonReset)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                slaveContext.reset();
+            }
+        });
+
+        ((Button) findViewById(R.id.buttonX90)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                slaveContext.rotate90(1,0,0);
+            }
+        });
+
+        ((Button) findViewById(R.id.buttonY90)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                slaveContext.rotate90(0,1,0);
+            }
+        });
+
+        ((Button) findViewById(R.id.buttonZ90)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                slaveContext.rotate90(0,0,1);
+            }
+        });
+
+
         String bluetoothAddress = extras.getString(SelectActivity.EXTRA_DEVICE_ADDRESS);
         sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         slaveContext = new SlaveContext(sensorManager, bluetoothAddress);

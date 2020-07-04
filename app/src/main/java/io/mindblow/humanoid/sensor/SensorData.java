@@ -8,8 +8,8 @@ import java.nio.ByteOrder;
 
 
 public class SensorData {
-    public float[] accelerometer = new float[3];
-    public float[] gyroscope = new float[3];
+    public float[] accelerometer = new float[4];
+    public float[] gyroscope = new float[4];
 
     public SensorData() {
 
